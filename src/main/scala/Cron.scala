@@ -57,13 +57,13 @@ object Cron {
         }
         if (timeMinutes == "*") {
           println("This Will Run Every Minuite")
-          if (minuitesInputChecked - 1 < -1) {
-            println(minuitesInputChecked -1)
-            timeMinutes = (minuitesInputChecked - 1).toString
-          }
-          else {
-            timeMinutes = "00"
-          }
+            if (minuitesInputChecked < 59) {
+              timeMinutes = (minuitesInputChecked + 1).toString
+            }
+            else {
+              timeMinutes = "00"
+              timeHour = (timeHour.toInt + 1).toString
+            }
         }
       }
       else {
@@ -78,7 +78,6 @@ object Cron {
           println("The Times Enter And The Start Time Were Different")
         }
       }
-
       if (hoursInputChecked == timeHour.toInt) {
         println("This Job Will Run Shortly")
         if (minuitesInputChecked > timeMinutes.toInt) {
