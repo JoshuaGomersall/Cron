@@ -15,6 +15,6 @@
 
 object Main {
   def main(args: Array[String]): Unit = {
-    Cron.readFromConfig(2,0)
+    Cron.readFromConfig(10,20)
   }
 }
