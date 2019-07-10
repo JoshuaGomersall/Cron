@@ -13,10 +13,10 @@ object Cron {
   def verifyTimeInputHour(hour: Int): Int = {
     println(s"The User Input The Hour $hour:")
     hour match{
-      case x if (x > 24) => {
+      case x if x > 24 => {
         println("Hour Was Above 24")
         sys.exit()}
-      case x if (x < 0) => {
+      case x if x < 0 => {
         println("Hour Was Below 0")
         sys.exit()}
       case _ => println(s"The Hour $hour Is Valid")
@@ -28,10 +28,10 @@ object Cron {
     println(s"The User Input The Minuites $minuites")
     minuites match{
       case x if (x > 60) => {
-        println("Minuites Was Above 60")
+        println("Minutes Was Above 60")
         sys.exit()}
       case x if (x < 0) => {
-        println("Minuites Was Below 0")
+        println("Minutes Was Below 0")
         sys.exit()}
       case _ => println(s"The Minuites $minuites Is Valid")
     }
@@ -44,7 +44,6 @@ object Cron {
     var minuitesInputChecked = Cron.verifyTimeInputMinuite(minuitesInput)
 
     println("Following is the content read:" )
-    //Source.fromFile("target/scala-2.13/classes/Config/scheduler config") .foreach({print})
     for(line <- Source.fromFile("target/scala-2.13/classes/Config/scheduler config").getLines()) {
       //println(line)
 
@@ -61,7 +60,12 @@ object Cron {
         }
         if (timeMinuite == "*") {
           println("This Will Run Every Minuite")
-          timeMinuite = (minuitesInputChecked -1).toString
+          if (minuitesInputChecked - 1 < -1){
+            timeMinuite = (minuitesInputChecked - 1).toString
+          }
+          else {
+            timeMinuite = "00"
+          }
 
         }
       }
@@ -74,12 +78,12 @@ object Cron {
           }
         }
         else {
-          println("The Starting Times Were Different")
+          println("The Times Enter And The Start Time Were Different")
         }
       }
       val done : String = "tomorrow"
       if (hoursInputChecked > timeHour.toInt && minuitesInputChecked > timeMinuite.toInt) {
-
+        println("THIS JOB HAS HAPPENED")
       }
 
       println(s" $timeHour : $timeMinuite   In Location $folderStart \n")
