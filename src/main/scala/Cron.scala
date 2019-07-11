@@ -41,26 +41,25 @@ object Cron {
     val hoursInputChecked = Cron.verifyTimeInputHour(hoursInput)
     val minuitesInputChecked = Cron.verifyTimeInputMinuite(minuitesInput)
 
+
     println("Following is the content read:")
     for (line <- Source.fromFile("target/scala-2.13/classes/Config/scheduler config").getLines()) {
 
       val nextLine: Array[String] = line.split((" "))
-
+      val today_or_tomorrow = "Today"
       var timeMinutes: String = nextLine(0)
       var timeHour: String = nextLine(1)
       val folderStart: String = nextLine(2)
 
       if (timeHour == "*" || timeMinutes == "*") {
         if (timeHour == "*") {
-          println("This Will Run Every Hour")
           timeHour = hoursInputChecked.toString
         }
         if (timeMinutes == "*") {
-          println("This Will Run Every Minuite")
-            if (minuitesInputChecked < 59) {
+          if (minuitesInputChecked < 59) {
               timeMinutes = (minuitesInputChecked + 1).toString
             }
-            else {
+          else {
               timeMinutes = "00"
               timeHour = (timeHour.toInt + 1).toString
             }
@@ -68,29 +67,22 @@ object Cron {
       }
       else {
         if (timeHour.toInt == hoursInputChecked.toInt) {
-          println("Starting Hour Was Found")
           if (timeMinutes.toInt == minuitesInputChecked.toInt) {
-            print(" And Starting Minutes Found")
-            println("")
           }
         }
         else {
-          println("The Times Enter And The Start Time Were Different")
         }
       }
       if (hoursInputChecked == timeHour.toInt) {
         println("This Job Will Run Shortly")
         if (minuitesInputChecked > timeMinutes.toInt) {
-          println("THIS JOB HAS HAPPENED")
         }
       }
       else if (hoursInputChecked > timeHour.toInt) {
-        println("THIS JOB HAS HAPPENED")
       }
       else {
-        println("THIS JOB WILL Happen AT")
       }
-      println(s" $timeHour : $timeMinutes   In Location $folderStart \n")
+      println(s"$timeHour:$timeMinutes $today_or_tomorrow - $folderStart")
     }
   }
 }
